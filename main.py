@@ -5,7 +5,7 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 
 # Токен бота
-TOKEN = "ТВОЙ_ТОКЕН_ОТ_BOTFATHER"
+TOKEN = "8109632757:AAHJDDDcfidBLLym_ZDYIu4bH001P1LkcKE"
 
 # Включаем логирование
 logging.basicConfig(
