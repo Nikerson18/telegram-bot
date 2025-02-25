@@ -5,7 +5,7 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters
 
 # Токен бота
-TOKEN = "8109632757:AAHJDDDcfidBLLym_ZDYIu4bH001P1LkcKE"
+TOKEN = "ТВОЙ_ТОКЕН_ОТ_BOTFATHER"
 
 # Включаем логирование
 logging.basicConfig(
@@ -30,8 +30,7 @@ async def start(update: Update, context) -> None:
 async def help_command(update: Update, context) -> None:
     await update.message.reply_text(
         "/помощь - Список команд\n"
-        "/поиск_водителя [имя] - Получить информацию о конкретном водителе\n"
-        "/help - Список команд\n"
+        "/search_driver [имя] - Получить информацию о конкретном водителе\n"
         "/get_driver_info - Получить информацию о водителях\n"
         "/get_salary_report - Получить отчёт по зарплатам\n"
         "/send_document - Отправить документ"
@@ -87,7 +86,7 @@ def main():
     # Добавляем обработчики команд
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
-    app.add_handler(CommandHandler("поиск_водителя", get_driver_info))
+    app.add_handler(CommandHandler("search_driver", get_driver_info))  # Команда для поиска водителя
     app.add_handler(CommandHandler("get_driver_info", get_driver_info))
     app.add_handler(CommandHandler("get_salary_report", get_salary_report))
     app.add_handler(CommandHandler("send_document", send_document))
