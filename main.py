@@ -12,6 +12,7 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
+
 # Пример данных о водителях (можно заменить на базу данных или Google Sheets)
 drivers_info = {
     "Иван Иванов": {"трак": "Volvo 2020", "телефон": "+1 123-456-7890"},
@@ -22,27 +23,28 @@ drivers_info = {
 # Функция для команды /start
 async def start(update: Update, context) -> None:
     await update.message.reply_text(
-        "Привет! Я BUDHMO_bot. Чем могу помочь? Для получения списка доступных команд, напишите /help."
+        "Привет! Я BUDHMO_bot. Чем могу помочь? Для получения списка доступных команд, напишите /помощь."
     )
 
-# Функция для команды /help
+# Функция для команды /помощь
 async def help_command(update: Update, context) -> None:
     await update.message.reply_text(
         "/помощь - Список команд\n"
         "/поиск_водителя [имя] - Получить информацию о конкретном водителе\n"
-        "Например: 'нужна информация, водитель Эрдем'"
         "/help - Список команд\n"
         "/get_driver_info - Получить информацию о водителях\n"
         "/get_salary_report - Получить отчёт по зарплатам\n"
         "/send_document - Отправить документ"
     )
-    
 
 # Функция для отправки документа (например, PDF или изображения)
 async def send_document(update: Update, context) -> None:
     file_path = 'путь_к_документу/документ.pdf'  # Укажи путь к документу
-    with open(file_path, 'rb') as file:
-        await update.message.reply_document(document=file)
+    try:
+        with open(file_path, 'rb') as file:
+            await update.message.reply_document(document=file)
+    except FileNotFoundError:
+        await update.message.reply_text("Документ не найден. Пожалуйста, проверьте путь к файлу.")
 
 # Функция для получения информации о водителях
 async def get_driver_info(update: Update, context) -> None:
@@ -53,7 +55,6 @@ async def get_driver_info(update: Update, context) -> None:
 # Функция для поиска информации о конкретном водителе через текстовое сообщение
 async def search_driver_by_message(update: Update, context) -> None:
     message_text = update.message.text.lower()  # Получаем текст сообщения и приводим к нижнему регистру
-  # Ищем упоминание "водитель" и имя водителя в сообщении
     if "водитель" in message_text:
         # Пытаемся найти имя водителя после слова "водитель"
         for driver_name in drivers_info:
@@ -73,7 +74,6 @@ async def get_all_drivers_info(update: Update, context) -> None:
     driver_list = "\n".join(drivers_info.keys())
     await update.message.reply_text(f"Список водителей:\n{driver_list}")
 
-
 # Функция для получения отчёта по зарплатам
 async def get_salary_report(update: Update, context) -> None:
     # Пример отчёта
@@ -87,14 +87,11 @@ def main():
     # Добавляем обработчики команд
     app.add_handler(CommandHandler("start", start))
     app.add_handler(CommandHandler("help", help_command))
+    app.add_handler(CommandHandler("поиск_водителя", get_driver_info))
     app.add_handler(CommandHandler("get_driver_info", get_driver_info))
     app.add_handler(CommandHandler("get_salary_report", get_salary_report))
     app.add_handler(CommandHandler("send_document", send_document))
-     # Добавляем обработчики команд
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("помощь", help_command))
-    app.add_handler(CommandHandler("информация_о_водителях", get_all_drivers_info))
-
+    
     # Добавляем обработчик для текстовых сообщений, содержащих информацию о водителе
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, search_driver_by_message))
 
