@@ -5,7 +5,7 @@ import asyncio
 import telegram.error
 
 # Создаем Flask-приложение
-app = Flask(__8109632757:AAHJDDDcfidBLLym_ZDYIu4bH001P1LkcKE__)
+app = Flask(__name__)
 async def button_handler(update: Update, context):
     query = update.callback_query
     try:
