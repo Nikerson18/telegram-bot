@@ -1,7 +1,11 @@
+from flask import Flask, request
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler, ContextTypes
+import asyncio
 import telegram.error
 
+# Создаем Flask-приложение
+app = Flask(__8109632757:AAHJDDDcfidBLLym_ZDYIu4bH001P1LkcKE__)
 async def button_handler(update: Update, context):
     query = update.callback_query
     try:
