@@ -1,77 +1,14 @@
-from flask import Flask, request
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler, ContextTypes
-import asyncio
 import telegram.error
 
-# Создаем Flask-приложение
-app = Flask(__name__)
-
-# Список разрешённых пользователей
-ALLOWED_USERS = {5538804267, 1430105405, 8026256981, 6932066810, 7275611563, 723670550, 5880565984}  # Замени на свои ID
-
-# Функция проверки доступа
-def check_access(update: Update) -> bool:
-    user_id = update.effective_user.id
-    if user_id not in ALLOWED_USERS:
-        if update.message:
-            update.message.reply_text("🚫 Доступ запрещён. Свяжитесь с администратором.")
-        elif update.callback_query:
-            update.callback_query.message.reply_text("🚫 Доступ запрещён.")
-        return False
-    return True
-
-# Асинхронный обработчик кнопки
-async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def button_handler(update: Update, context):
     query = update.callback_query
     try:
         await query.answer()
     except telegram.error.BadRequest:
         pass
 
-# Асинхронный обработчик команды /start
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.message is None:
-        return
-
-    text = update.message.text.lower()
-    trigger_words = ["привет", "hi", "salut", "начать", "старт"]
-    
-    if update.message.text.startswith("/") or text in trigger_words:
-        keyboard = [[InlineKeyboardButton("👥 Список диспетчеров", callback_data='dispatchers')]]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await update.message.reply_text("🚛 Главное меню:", reply_markup=reply_markup)
-
-# Запуск Telegram-бота
-async def run_bot():
-    TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"  # Замените на ваш токен
-    bot_app = Application.builder().token(TOKEN).build()
-
-    bot_app.add_handler(CommandHandler("start", start))
-    bot_app.add_handler(CallbackQueryHandler(button_handler))
-
-    print("Бот запущен...")
-    await bot_app.run_polling()
-
-# Маршрут для проверки работы сервера
-@app.route('/')
-def home():
-    return "Бот работает!"
-
-# Маршрут для обработки сообщений бота через вебхук (если потребуется)
-@app.route(f'/{TOKEN}', methods=['POST'])
-async def webhook():
-    update = Update.de_json(request.get_json(), bot_app.bot)
-    await bot_app.process_update(update)
-    return "OK", 200
-
-# Запуск Flask и Telegram-бота
-if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.create_task(run_bot())  # Запускаем бота в отдельном процессе
-    app.run(host='0.0.0.0', port=5000)
-    
-######
 
 # 🔒 Список разрешённых пользователей (замени ID на реальные)
 ALLOWED_USERS = {5538804267, 1430105405, 8026256981, 6932066810, 7275611563, 723670550, 5880565984, }  # Замени на свои ID
