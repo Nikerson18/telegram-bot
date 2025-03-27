@@ -396,54 +396,75 @@ drivers_info = {
     ),
 }
 
-async def show_dispatchers(update: Update, context: CallbackQueryHandler):
+# Функция для отображения списка диспетчеров
+async def show_dispatchers(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     keyboard = [[InlineKeyboardButton(name, callback_data=name)] for name in dispatchers.keys()]
     keyboard.append([InlineKeyboardButton("⬅️ Назад", callback_data='start')])
     reply_markup = InlineKeyboardMarkup(keyboard)
     await query.message.edit_text("👥 Выберите диспетчера:", reply_markup=reply_markup)
 
-async def show_drivers(update: Update, context: CallbackQueryHandler):
+# Функция для отображения списка водителей диспетчера
+async def show_drivers(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    selected_dispatcher = query.data
-    keyboard = [[InlineKeyboardButton(name, callback_data=name)] for name in dispatchers[selected_dispatcher]]
-    keyboard.append([InlineKeyboardButton("⬅️ Назад", callback_data='dispatchers')])
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await query.message.edit_text(f"🚛 Водители диспетчера {selected_dispatcher}:", reply_markup=reply_markup)
+    dispatcher_name = query.data
+    if dispatcher_name in dispatchers:
+        drivers = dispatchers[dispatcher_name]
+        keyboard = [[InlineKeyboardButton(driver, callback_data=driver)] for driver in drivers]
+        keyboard.append([InlineKeyboardButton("⬅️ Назад", callback_data='dispatchers')])
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await query.message.edit_text(f"🚛 Список водителей {dispatcher_name}:", reply_markup=reply_markup)
 
-async def show_driver_info(update: Update, context: CallbackQueryHandler):
+# Информация о водителе с кнопкой для загрузки файла
+async def show_driver_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    selected_driver = query.data
-    keyboard = [
-        [InlineKeyboardButton("📸 Фото", callback_data=f"photo_{selected_driver}"),
-         InlineKeyboardButton("📂 Файлы", callback_data=f"files_{selected_driver}")],
-        [InlineKeyboardButton("⬅️ Назад", callback_data='dispatchers')]
-    ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await query.message.edit_text(f"{drivers_info[selected_driver]}", reply_markup=reply_markup)
+    driver_name = query.data
+    if driver_name == "Водитель Erdem":
+        # Добавляем кнопку для отправки файла
+        keyboard = [
+            [InlineKeyboardButton("📂 Скачать файл", callback_data="send_file_erdem")],
+            [InlineKeyboardButton("⬅️ Назад", callback_data='drivers')]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await query.message.edit_text("📌 Информация о водителе Erdem", reply_markup=reply_markup)
 
-async def button_handler(update: Update, context: CallbackQueryHandler):
+# Обработчик для кнопки с отправкой файла
+async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
-    await query.answer()
-    if query.data == 'start':
-        await start(update, context)
-    elif query.data == 'dispatchers':
-        await show_dispatchers(update, context)
-    elif query.data in dispatchers:
-        await show_drivers(update, context)
-    elif query.data in drivers_info:
-        await show_driver_info(update, context)
-    elif query.data.startswith("photo_") or query.data.startswith("files_"):
-        await query.message.reply_text("📂 Функция загрузки пока не реализована.")
+    driver_name = query.data
 
-# Создание приложения
-app = Application.builder().token("8109632757:AAHJDDDcfidBLLym_ZDYIu4bH001P1LkcKE").build()
+    if driver_name == "send_file_erdem":
+        document_path = "https://drive.google.com/uc?id=18xK7GtULLpYmROzjKRlxXVTVamsfrPlj"  # Прямая ссылка на файл
+        # Отправляем файл в чат
+        await query.message.reply_document(document=document_path, caption="📂 Файл для водителя Erdem")
 
-# Добавление обработчиков
-app.add_handler(CommandHandler("start", start))
-app.add_handler(CallbackQueryHandler(button_handler))
+# Основной обработчик
+async def main(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if not check_access(update):
+        return
 
-# Запуск бота
+    # Слушаем команды
+    if update.message:
+        text = update.message.text.lower()
+        if text == "/start":
+            await start(update, context)
+        else:
+            await button_handler(update, context)
+    elif update.callback_query:
+        query = update.callback_query
+        if query.data == 'dispatchers':
+            await show_dispatchers(update, context)
+        elif query.data in dispatchers:
+            await show_drivers(update, context)
+        elif query.data in drivers_info:
+            await show_driver_info(update, context)
+
 if __name__ == "__main__":
-    print("Бот запущен...")
-    app.run_polling()
+    application = Application.builder().token('8109632757:AAHJDDDcfidBLLym_ZDYIu4bH001P1LkcKE').build()
+
+    # Регистрация команд
+    application.add_handler(CommandHandler('start', start))
+    application.add_handler(CallbackQueryHandler(main))
+
+    # Запуск бота
+    application.run_polling()
