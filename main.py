@@ -64,7 +64,7 @@ Dispatchers = {
 }
 
 drivers_info = {
-    "Водитель RAMIL KHAFIZOV": (
+    "Водитель RAMIL KHAFIZOV": 
         "📌 Driver Name: RAMIL KHAFIZOV \n"
         "📞 Phone Number: 916-282-8457 \n"
         "🚛 Truck Number: 34 \n"
@@ -74,7 +74,6 @@ drivers_info = {
         "⚖ Weight: 9000lb \n"
         "🅱 Owner: Marin",
 
-    ),
     "Водитель OLEH SEMENENNKO": (
         "📌 Driver Name: OLEH SEMENENNKO \n"
         "📞 Phone Number: 786-843-1879 \n"
