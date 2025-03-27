@@ -1,5 +1,5 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler, ContextTypes
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, CallbackQueryHandler, ContextTypes, CallbackContext
 import telegram.error
 
 async def button_handler(update: Update, context):
@@ -9,41 +9,48 @@ async def button_handler(update: Update, context):
     except telegram.error.BadRequest:
         pass
 
-
 # 🔒 Список разрешённых пользователей (замени ID на реальные)
-ALLOWED_USERS = {5538804267, 1430105405, 8026256981, 6932066810, 7275611563, 723670550, 5880565984, }  # Замени на свои ID
+ALLOWED_USERS = {5538804267, 1430105405, 6932066810, 8026256981, 7275611563, 723670550, 5880565984, }  # Замени на свои ID
 
 # 🔐 Функция проверки доступа
-def check_access(update: Update) -> bool:
+async def check_access(update: Update) -> bool:
     user_id = update.effective_user.id
     if user_id not in ALLOWED_USERS:
         if update.message:
-            update.message.reply_text("🚫 Доступ запрещён. Свяжитесь с администратором.")
+            await update.message.reply_text("🚫 Доступ запрещён. Свяжитесь с администратором.")
         elif update.callback_query:
-            update.callback_query.message.reply_text("🚫 Доступ запрещён.")
+            await update.callback_query.message.reply_text("🚫 Доступ запрещён.")
         return False
-    return True
+    return True  # Если пользователь в списке, возвращаем True
 
-# Обработчик нажатия кнопки
-async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    query = update.callback_query
-    try:
-        await query.answer()
-    except telegram.error.BadRequest:
-        pass
-
-## 🚀 Функция /start и при определённых словах
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.message is None:  # Если это не текстовое сообщение, пропускаем
+# 🚀 Функция /start и при определённых словах
+async def start(update: Update, context: CallbackContext):
+    if update.message is None or update.message.text is None:  # Если нет текста, выходим
         return
 
-    text = update.message.text.lower()  # Делаем текст сообщения строчными буквами
+    text = update.message.text.lower()  # Определяем text сразу
+    trigger_words = ["привет", "hi", "salut", "начать", "старт"]
 
-    trigger_words = ["привет", "hi", "Salut", "начать", "старт"]  # Список ключевых слов
-    if update.message.text.startswith("/") or text in trigger_words:  # Проверяем команду или слова
+    # Выводим отладочную информацию
+    print(f"Проверяем текст: {text}")
+
+    if any(word in text.split() for word in trigger_words) or text.startswith("/"):
+        if not await check_access(update):  # Проверяем доступ
+            return  # Если доступа нет, выходим
+
+        await update.message.reply_text("✅ Доступ разрешён. Добро пожаловать!")  # Добавляем сообщение о доступе
         keyboard = [[InlineKeyboardButton("👥 Список диспетчеров", callback_data='dispatchers')]]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await update.message.reply_text("🚛 Главное меню:", reply_markup=reply_markup)
+        return  # Выход после отправки меню
+
+        # 🚛 Если триггерные слова не сработали, ищем водителя
+    driver_name = text
+    drivers_info_lower = {key.lower(): value for key, value in drivers_info.items()}
+    info = drivers_info_lower.get(driver_name)
+
+    if info:
+        await update.message.reply_text(info, parse_mode='HTML')
 
 # 🔄 Главное меню (пример)
 def main_menu():
