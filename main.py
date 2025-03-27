@@ -402,14 +402,148 @@ drivers_info = {
         "🅱 Owner: Owner Operator"
     ),
 }
-async def show_dispatchers(update: Update, context: CallbackQueryHandler):
+
+# URL для фотографий и файлов
+drivers_files = {
+    "Водитель RAMIL KHAFIZOV": {
+        "photo": "https://drive.google.com/file/d/1bzdQIFsOilY8eHuA4x7gq3xgKAaqoBLa/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1bzdQIFsOilY8eHuA4x7gq3xgKAaqoBLa/view?usp=drive_link"
+    },
+    "Водитель OLEH SEMENENNKO": {
+        "photo": "https://drive.google.com/file/d/1BypkUML2-13yC_1zhopir5MakM16y2Z1/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1BypkUML2-13yC_1zhopir5MakM16y2Z1/view?usp=drive_link"
+    },
+    "Водитель OLEG RESHAEV": {
+        "photo": "https://drive.google.com/file/d/1Jog2P7ssILevyBMUeOOQEapT2pwxexGD/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1Jog2P7ssILevyBMUeOOQEapT2pwxexGD/view?usp=drive_link"
+    },
+    "Водитель MUKHAMED ADZHIEV": {
+        "photo": "https://drive.google.com/file/d/1F8zgKUpT6KW4dEd1O9viAAOdVBUi2oHr/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1F8zgKUpT6KW4dEd1O9viAAOdVBUi2oHr/view?usp=drive_link"
+    },
+    "Водитель MARAT KAZIEV": {
+        "photo": "https://drive.google.com/file/d/1tf90OVNgaMQA3djkYzsapF1-bgENxgId/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1tf90OVNgaMQA3djkYzsapF1-bgENxgId/view?usp=drive_link"
+    },
+    "Водитель AZAT BORONCHIEV": {
+        "photo": "https://drive.google.com/file/d/1N3IdZjiMWHZDRCIJK21cNSUM2PlKTOUT/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1N3IdZjiMWHZDRCIJK21cNSUM2PlKTOUT/view?usp=drive_link"
+    },
+    "Водитель INAL VALIEV": {
+        "photo": "https://drive.google.com/file/d/1Zjrs0cPAl9p2z8BfLb150pxOm-FgLZkQ/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1Zjrs0cPAl9p2z8BfLb150pxOm-FgLZkQ/view?usp=drive_link"
+    },
+    "Водитель ALEKSANDR PAVLOV": {
+        "photo": "https://drive.google.com/file/d/11Opx2TN6ScaJ31YjHyB1IQ6ktOq26KM9/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/11Opx2TN6ScaJ31YjHyB1IQ6ktOq26KM9/view?usp=drive_link"
+    },
+    "Водитель MUKHAR KHUGAEV": {
+        "photo": "https://drive.google.com/file/d/1Gspmhy-V8uvniWVRFNYF-0y3OgKODF_F/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1Gspmhy-V8uvniWVRFNYF-0y3OgKODF_F/view?usp=drive_link"
+    },
+    "Водитель BAIR DABAIN": {
+        "photo": "https://drive.google.com/file/d/1qoV0MKrI3dycrH8eKHn1wy6MSalNgErn/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1qoV0MKrI3dycrH8eKHn1wy6MSalNgErn/view?usp=drive_link"
+    },
+    "Водитель GHEORGHE BALICA": {
+        "photo": "https://drive.google.com/file/d/1CsUw9bnJflnnpGFcEg4GWnb_4pZGwSYF/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1CsUw9bnJflnnpGFcEg4GWnb_4pZGwSYF/view?usp=drive_link"
+    },
+    "Водитель SERGHEI CIOBANU": {
+        "photo": "https://drive.google.com/file/d/1OoSZcQYjrCdtpoFk3H8CxUEdkOYYvWYC/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1OoSZcQYjrCdtpoFk3H8CxUEdkOYYvWYC/view?usp=drive_link"
+    },
+    "Водитель SERHII HONCHARENKO": {
+        "photo": "https://drive.google.com/file/d/1o5hiNiTsmXdxvH3_FuAZUEkPzZMGjbAr/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1o5hiNiTsmXdxvH3_FuAZUEkPzZMGjbAr/view?usp=drive_link"
+    },
+    "Водитель DARMAN ORUZBAEV": {
+        "photo": "https://drive.google.com/file/d/1ejFCxUWMC3WylWhZ8s3NbITVfgHriocd/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1ejFCxUWMC3WylWhZ8s3NbITVfgHriocd/view?usp=drive_link"
+    },
+    "Водитель TOTRAZ ABAEV": {
+        "photo": "https://drive.google.com/file/d/1b4fse7ttFAvzwqhy83lu_GtCkcoMQhff/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1b4fse7ttFAvzwqhy83lu_GtCkcoMQhff/view?usp=drive_link"
+    },
+    "Водитель YERKEBULAN BOSHAIBEKOV": {
+        "photo": "https://drive.google.com/file/d/17oYiD-eOkhHIC9mwAsbXeNvehgJfkWmn/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/17oYiD-eOkhHIC9mwAsbXeNvehgJfkWmn/view?usp=drive_link"
+    },
+    "Водитель MAIRBEK KHASIGOV": {
+        "photo": "https://drive.google.com/file/d/1NYUXFrUXf9DUVk3CRTMQnOS1-OodsI2f/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1NYUXFrUXf9DUVk3CRTMQnOS1-OodsI2f/view?usp=drive_link"
+    },
+    "Водитель MARIN GULIA": {
+        "photo": "https://drive.google.com/file/d/1ykhC1lIoNk7UM3zjJqCUFLWVsOey5oMR/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1ykhC1lIoNk7UM3zjJqCUFLWVsOey5oMR/view?usp=drive_link"
+    },
+    "Водитель ALBERT ABAIKHANOV": {
+        "photo": "https://drive.google.com/file/d/17M0f3cTycjjtptvjXz119oIkHNd2-DPN/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/17M0f3cTycjjtptvjXz119oIkHNd2-DPN/view?usp=drive_link"
+    },
+    "Водитель ASKHABALI SHABANOV": {
+        "photo": "https://drive.google.com/file/d/1jDhOocC4s0d1ZaW863WQcTbHm_3Zehig/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1jDhOocC4s0d1ZaW863WQcTbHm_3Zehig/view?usp=drive_link"
+    },
+    "Водитель ILLIA HORBATOK": {
+        "photo": "",
+        "files": ""
+    },
+    "Водитель TSYDEN TOBODORZHIEV": {
+        "photo": "https://drive.google.com/file/d/1NNJM7lmtpRnh82ICh92xNXHzmr4LGBI4/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1NNJM7lmtpRnh82ICh92xNXHzmr4LGBI4/view?usp=drive_link"
+    },
+    "Водитель VIKTOR ATANOV": {
+        "photo": "https://drive.google.com/file/d/1GwhxpNl9IHvaNHnIZWiFVQEx2JP2rT9i/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1GwhxpNl9IHvaNHnIZWiFVQEx2JP2rT9i/view?usp=drive_link"
+    },
+    "Водитель AZAT AZAMAT": {
+        "photo": "https://drive.google.com/file/d/1iOLgUSvrvYj0mrB6o5t9Xtq0GTGO-9c2/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1iOLgUSvrvYj0mrB6o5t9Xtq0GTGO-9c2/view?usp=drive_link"
+    },
+    "Водитель GEORGII RIONELI": {
+        "photo": "https://drive.google.com/file/d/1WDlAlIKCRofH0N1Z-Z8N2qNfgaO1FpsK/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1WDlAlIKCRofH0N1Z-Z8N2qNfgaO1FpsK/view?usp=drive_link"
+    },
+    "Водитель DENIS COLESNICENCO": {
+        "photo": "https://drive.google.com/file/d/1OkH_O_LOSUAbOvV1F85sxwJfJpomSowJ/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1OkH_O_LOSUAbOvV1F85sxwJfJpomSowJ/view?usp=drive_link"
+    },
+    "Водитель IGOR BALAKIN": {
+        "photo": "https://drive.google.com/file/d/1VLB3ADySVYgLBm3DGv-utG8xEuHj1Vcv/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1VLB3ADySVYgLBm3DGv-utG8xEuHj1Vcv/view?usp=drive_link"
+    },
+    "Водитель TAULAN TOTORKULOV": {
+        "photo": "https://drive.google.com/file/d/1m0kguCz7qe3-kyB_Qi_NyCNUTgh5ACYU/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1m0kguCz7qe3-kyB_Qi_NyCNUTgh5ACYU/view?usp=drive_link"
+    },
+    "Водитель ERDEM DORZHIEV": {
+        "photo": "https://drive.google.com/file/d/1b3_h2Rk-6_YL2ccvdnojRCTbpemDZ2Ce/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1b3_h2Rk-6_YL2ccvdnojRCTbpemDZ2Ce/view?usp=drive_link"
+    },
+    "Водитель (Said) MAGOMEDSAID GABIBULAEV": {
+        "photo": "https://drive.google.com/file/d/1lft69iT2fdtwZLN3whhknZWuTIYVT5K7/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1lft69iT2fdtwZLN3whhknZWuTIYVT5K7/view?usp=drive_link"
+    },
+    "Водитель (DOS) DASTAN MASYLKANOV": {
+        "photo": "https://drive.google.com/file/d/1eMQhFKn0X5NDe0DmDl6pPQDK1VWpOo3a/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1eMQhFKn0X5NDe0DmDl6pPQDK1VWpOo3a/view?usp=drive_link"
+    },
+    "Водитель SOSLAN GAGLOEV": {
+        "photo": "https://drive.google.com/file/d/1vs1lmsH4MqphrU5p_GenEtTPQ2PwPXxR/view?usp=drive_link",
+        "files": "https://drive.google.com/file/d/1vs1lmsH4MqphrU5p_GenEtTPQ2PwPXxR/view?usp=drive_link"
+    },
+}
+
+async def show_dispatchers(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     keyboard = [[InlineKeyboardButton(name, callback_data=name)] for name in dispatchers.keys()]
     keyboard.append([InlineKeyboardButton("⬅️ Назад", callback_data='start')])
     reply_markup = InlineKeyboardMarkup(keyboard)
     await query.message.edit_text("👥 Выберите диспетчера:", reply_markup=reply_markup)
 
-async def show_drivers(update: Update, context: CallbackQueryHandler):
+
+async def show_drivers(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     selected_dispatcher = query.data
     keyboard = [[InlineKeyboardButton(name, callback_data=name)] for name in dispatchers[selected_dispatcher]]
@@ -417,20 +551,23 @@ async def show_drivers(update: Update, context: CallbackQueryHandler):
     reply_markup = InlineKeyboardMarkup(keyboard)
     await query.message.edit_text(f"🚛 Водители диспетчера {selected_dispatcher}:", reply_markup=reply_markup)
 
-async def show_driver_info(update: Update, context: CallbackQueryHandler):
+async def show_driver_info(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     selected_driver = query.data
     keyboard = [
-        [InlineKeyboardButton("📸 Фото", callback_data=f"photo_{selected_driver}"),
-         InlineKeyboardButton("📂 Файлы", callback_data=f"files_{selected_driver}")],
+        [InlineKeyboardButton("📸 Фото", url=drivers_files[selected_driver]["photo"]),
+         InlineKeyboardButton("📂 Файлы", url=drivers_files[selected_driver]["files"])],
         [InlineKeyboardButton("⬅️ Назад", callback_data='dispatchers')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await query.message.edit_text(f"{drivers_info[selected_driver]}", reply_markup=reply_markup)
 
-async def button_handler(update: Update, context: CallbackQueryHandler):
+
+async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     await query.answer()
+
+    # Переход по различным callback_data
     if query.data == 'start':
         await start(update, context)
     elif query.data == 'dispatchers':
@@ -439,13 +576,37 @@ async def button_handler(update: Update, context: CallbackQueryHandler):
         await show_drivers(update, context)
     elif query.data in drivers_info:
         await show_driver_info(update, context)
-    elif query.data.startswith("photo_") or query.data.startswith("files_"):
-        await query.message.reply_text("📂 Функция загрузки пока не реализована.")
+    elif query.data.startswith("photo_"):
+        selected_driver = query.data.split("_")[1]
+
+        # Проверяем, есть ли фото для выбранного водителя
+        if selected_driver in drivers_files and "photo" in drivers_files[selected_driver]:
+            photo_path = drivers_files[selected_driver]["photo"]
+            try:
+                await query.message.reply_photo(photo=open(photo_path, 'rb'))
+            except Exception as e:
+                await query.message.reply_text(f"Ошибка при отправке фото: {e}")
+        else:
+            await query.message.reply_text("Фото не найдено для этого водителя.")
+    elif query.data.startswith("files_"):
+        selected_driver = query.data.split("_")[1]
+
+        # Проверяем, есть ли документ для выбранного водителя
+        if selected_driver in drivers_files and "document" in drivers_files[selected_driver]:
+            file_path = drivers_files[selected_driver]["document"]
+            try:
+                await query.message.reply_document(document=open(file_path, 'rb'))
+            except Exception as e:
+                await query.message.reply_text(f"Ошибка при отправке документа: {e}")
+        else:
+            await query.message.reply_text("Документы не найдены для этого водителя.")
+
 
 # Создание приложения
-app = Application.builder().token("8109632757:AAHJDDDcfidBLLym_ZDYIu4bH001P1LkcKE").build()
+app = Application.builder().token("7931949571:AAEYdSWhL_ksOCK17RhFgF2gvlPqlwEgj0U").build()
 
 # Добавление обработчиков
+app.add_handler(CallbackQueryHandler(show_dispatchers, pattern="^dispatchers$"))
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CallbackQueryHandler(button_handler))
 
