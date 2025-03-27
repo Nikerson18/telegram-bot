@@ -53,7 +53,7 @@ def main_menu():
 # Данные (пока вручную)
 dispatchers = {
     "🚛 Диспетчер Andrew": ["Водитель RAMIL KHAFIZOV", "Водитель OLEG RESHAEV", "Водитель OLEH SEMENENNKO", "Водитель MUKHAMED ADZHIEV"],
-    "🚚 Диспетчер David": ["Водитель ALEKSEI LAMATKHANOV", "Водитель BAIR DABAIN", "Водитель MARAT KAZIEV", "Водитель AZAT BORONCHIEV", "Водитель MUKHAR KHUGAEV", "Водитель ALEKSANDR PAVLOV"],
+    "🚚 Диспетчер David": ["Водитель ALEKSEI LAMATKHANOV", "Водитель BAIR DABAIN", "Водитель MARAT KAZIEV", "Водитель AZAT BORONCHIEV", "Водитель MUKHAR KHUGAEV", "Водитель ALEKSANDR PAVLOV", Водитель INAL VALIEV],
     "🚌 Диспетчер Serghei": ["Водитель GHEORGHE BALICA", "Водитель SERGHEI CIOBANU", "Водитель SERHII HONCHARENKO"],
     "🚋 Диспетчер Vick": ["Водитель DARMAN ORUZBAEV", "Водитель TOTRAZ ABAEV", "Водитель YERKEBULAN BOSHAIBEKOV", "Водитель MAIRBEK KHASIGOV", "Водитель MARIN GULIA"],
     "🏍 Диспетчер Nick": ["Водитель ALBERT ABAIKHANOV", "Водитель ASKHABALI SHABANOV", "Водитель ILLIA HORBATOK"],
