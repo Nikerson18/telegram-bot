@@ -402,7 +402,6 @@ drivers_info = {
         "🅱 Owner: Owner Operator"
     ),
 }
-
 # URL для фотографий и файлов
 drivers_files = {
     "Водитель RAMIL KHAFIZOV": {
@@ -603,7 +602,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 # Создание приложения
-app = Application.builder().token("7931949571:AAEYdSWhL_ksOCK17RhFgF2gvlPqlwEgj0U").build()
+app = Application.builder().token("8109632757:AAHJDDDcfidBLLym_ZDYIu4bH001P1LkcKE").build()
 
 # Добавление обработчиков
 app.add_handler(CallbackQueryHandler(show_dispatchers, pattern="^dispatchers$"))
