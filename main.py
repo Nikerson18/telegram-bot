@@ -485,8 +485,8 @@ drivers_files = {
         "files": "https://drive.google.com/file/d/1jDhOocC4s0d1ZaW863WQcTbHm_3Zehig/view?usp=drive_link"
     },
     "Водитель ILLIA HORBATOK": {
-        "photo": "",
-        "files": ""
+        "photo": "https://cloud.samsara.com/o/4006674/fleet/viewer/pcksKeGTis0ouWzP37UV",
+        "files": "https://cloud.samsara.com/o/4006674/fleet/viewer/pcksKeGTis0ouWzP37UV"
     },
     "Водитель TSYDEN TOBODORZHIEV": {
         "photo": "https://drive.google.com/file/d/1NNJM7lmtpRnh82ICh92xNXHzmr4LGBI4/view?usp=drive_link",
