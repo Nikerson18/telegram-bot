@@ -62,7 +62,7 @@ dispatchers = {
     "🚛 Диспетчер Andrew": ["Водитель RAMIL KHAFIZOV", "Водитель OLEG RESHAEV", "Водитель OLEH SEMENENNKO", "Водитель MUKHAMED ADZHIEV"],
     "🚚 Диспетчер David": ["Водитель ALEKSEI LAMATKHANOV", "Водитель BAIR DABAIN", "Водитель MARAT KAZIEV", "Водитель AZAT BORONCHIEV", "Водитель MUKHAR KHUGAEV", "Водитель ALEKSANDR PAVLOV", "Водитель INAL VALIEV"],
     "🚌 Диспетчер Serghei": ["Водитель GHEORGHE BALICA", "Водитель SERGHEI CIOBANU", "Водитель SERHII HONCHARENKO"],
-    "🚋 Диспетчер Vick": ["Водитель DARMAN ORUZBAEV", "Водитель TOTRAZ ABAEV", "Водитель YERKEBULAN BOSHAIBEKOV", "Водитель MAIRBEK KHASIGOV", "Водитель MARIN GULIA"],
+    "🚋 Диспетчер Vick": ["Водитель DARMAN ORUZBAEV", "Водитель TOTRAZ ABAEV", "Водитель YERKEBULAN BOSHAIBEKOV", "Водитель MARIN GULIA", "Водитель MIRBEK ALOEV"],
     "🏍 Диспетчер Nick": ["Водитель ALBERT ABAIKHANOV", "Водитель ASKHABALI SHABANOV", "Водитель ILLIA HORBATOK"],
     "🚂 Диспетчер Peter": ["Водитель TSYDEN TOBODORZHIEV", "Водитель VIKTOR ATANOV", "Водитель AZAT AZAMAT"],
     "🚀 Диспетчер Dima": ["Водитель GEORGII RIONELI", "Водитель DENIS COLESNICENCO", "Водитель IGOR BALAKIN", "Водитель TAULAN TOTORKULOV"],
@@ -241,9 +241,9 @@ drivers_info = {
         "⚖ Weight: 8100lb \n"
         "🅱 Owner: Dumitru OU"
     ),
-    "Водитель MAIRBEK KHASIGOV": (
-        "📌 Driver Name: MAIRBEK KHASIGOV \n"
-        "📞 Phone Number: 925-497-0899 \n"
+    "Водитель MIRBEK ALOEV": (
+        "📌 Driver Name: MIRBEK ALOEV \n"
+        "📞 Phone Number: 916-767-6753 \n"
         "🚛 Truck Number: 32 \n"
         "🚂 Trailer Number: 32 \n"
         "🔑 VIN:3C63RRHL2RG289436 \n" 
@@ -468,7 +468,7 @@ drivers_files = {
         "photo": "https://drive.google.com/file/d/17oYiD-eOkhHIC9mwAsbXeNvehgJfkWmn/view?usp=drive_link",
         "files": "https://drive.google.com/file/d/17oYiD-eOkhHIC9mwAsbXeNvehgJfkWmn/view?usp=drive_link"
     },
-    "Водитель MAIRBEK KHASIGOV": {
+    "Водитель MIRBEK ALOEV": {
         "photo": "https://drive.google.com/file/d/1NYUXFrUXf9DUVk3CRTMQnOS1-OodsI2f/view?usp=drive_link",
         "files": "https://drive.google.com/file/d/1NYUXFrUXf9DUVk3CRTMQnOS1-OodsI2f/view?usp=drive_link"
     },
